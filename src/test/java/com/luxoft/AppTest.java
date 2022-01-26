@@ -8,6 +8,7 @@ import org.junit.jupiter.api.condition.OS;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("this is first test class")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Tag("tag2")
 public class AppTest {
 
     private static int lessonNumber;
