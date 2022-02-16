@@ -1,6 +1,8 @@
 package com.luxoft.web;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -12,10 +14,13 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+
 public class WebTest extends BaseTest{
     private final HomePage homePage = new HomePage(driver);
 
+
     @Test
+    @Disabled
     void firstTest() {
 
         WebElement menu = driver.findElement(By.id("menu-switcher"));
@@ -35,6 +40,7 @@ public class WebTest extends BaseTest{
     }
 
     @Test
+    @Disabled
     void secondTest(){
         homePage.checkSearchButtonDisplayed();
         Assertions.assertTrue(homePage.verifyMainMenuItems(
@@ -47,4 +53,26 @@ public class WebTest extends BaseTest{
 //        homePage.checkElementDisplayed("headerMenu");
 //        homePage.checkElementDisplayed("menuSwitcher");
 //    }
+
+    @Test
+    void checkLink() throws InterruptedException {
+        homePage.clickContactLink()
+            .acceptCookies()
+            .isViolationDisplayed();
+    }
+
+    @Test
+    void sendTest() throws InterruptedException {
+        homePage.clickContactLink();
+        ContactPage contactPage = homePage.isViolationDisplayed();
+        contactPage.setName("Edward", "Latypov");
+        contactPage.verifyData("INTERVAL", "Latypov");
+    }
+
+    @AfterEach
+    void goMain(){
+        driver.get("https://www.luxoft.com/");
+    }
+
+
 }

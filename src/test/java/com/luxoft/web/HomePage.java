@@ -62,6 +62,12 @@ public class HomePage{
     @FindBy(linkText = "HOME")
     WebElement homeLink;
 
+    @FindBy(linkText = "CONTACT US")
+    WebElement contactLink;
+
+    @FindBy(xpath = "//a[text()='Report copyright violation']")
+    WebElement violationLink;
+
     @FindBy(xpath = "//*[@class='header__menu']/ul/li/a")
     List<WebElement> menuItems;
 
@@ -72,6 +78,9 @@ public class HomePage{
             }
     )
     WebElement menuSwitcher;
+
+    @FindBy(id = "CybotCookiebotDialogBodyButtonAccept")
+    WebElement acceptCookies;
 
     public void checkSearchButtonDisplayed(){
         assertThat(searchButton.isDisplayed(), equalTo(true));
@@ -86,6 +95,22 @@ public class HomePage{
         return true;
     }
 
+    public HomePage clickContactLink(){
+        contactLink.click();
+        return this;
+    }
+
+    public HomePage acceptCookies(){
+        acceptCookies.click();
+        return this;
+    }
+
+    public ContactPage isViolationDisplayed() throws InterruptedException {
+        Assertions.assertTrue(violationLink.isDisplayed());
+        Thread.sleep(1500);
+        violationLink.click();
+        return new ContactPage(driver);
+    }
     //--------3rd approach - switch or map---------
 //    public HomePage(WebDriver driver) {
 //        this.driver = driver;

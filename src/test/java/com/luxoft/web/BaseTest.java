@@ -24,4 +24,5 @@ public class BaseTest {
     static void tearDown(){
         driver.close();
     }
+
 }
