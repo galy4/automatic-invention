@@ -69,6 +69,20 @@ public class WebTest extends BaseTest{
         contactPage.verifyData("INTERVAL", "Latypov");
     }
 
+    @Test
+    void waitsTest() throws InterruptedException {
+        homePage
+                .checkElementAppears()
+                .countArrows(3);
+
+    }
+
+    @Test
+    void newTabTest(){
+        homePage.closeAlertWindow();
+        homePage.openNewPage();
+    }
+
     @AfterEach
     void goMain(){
         driver.get("https://www.luxoft.com/");

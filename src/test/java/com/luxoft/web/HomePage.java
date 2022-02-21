@@ -4,14 +4,17 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -82,6 +85,9 @@ public class HomePage{
     @FindBy(id = "CybotCookiebotDialogBodyButtonAccept")
     WebElement acceptCookies;
 
+    @FindBy(xpath = "//a[contains(text(),'About us')]")
+    List<WebElement> aboutUsLinks;
+
     public void checkSearchButtonDisplayed(){
         assertThat(searchButton.isDisplayed(), equalTo(true));
         assertThat(menuSwitcher.isDisplayed(), equalTo(true));
@@ -109,8 +115,41 @@ public class HomePage{
         Assertions.assertTrue(violationLink.isDisplayed());
         Thread.sleep(1500);
         violationLink.click();
+        System.out.println(driver.manage().getCookieNamed("VISITOR_INFO1_LIVE"));
+        driver.manage().deleteCookieNamed("BX_USER_ID");
+        driver.manage().deleteAllCookies();
         return new ContactPage(driver);
     }
+
+    public HomePage checkElementAppears(){
+        menuSwitcher.click();
+        BaseTest.waitVar.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//nav[@class='lux-menu__nav']/ul/li/a[contains(text(),'About us')]")));
+        return this;
+    }
+
+    public HomePage countArrows(int size) throws InterruptedException {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(aboutUsLinks.get(0)).build().perform();
+        List<WebElement> arr = aboutUsLinks.get(0).findElements(By.xpath("./span/i"));
+        assertThat(arr.size(), equalTo(size));
+        Thread.sleep(8000);
+        return this;
+    }
+
+    public void closeAlertWindow(){
+        BaseTest.javascriptExecutor.executeScript("alert('TEST ALERT!11');");
+        driver.switchTo().alert().dismiss();
+    }
+
+    public void openNewPage(){
+        BaseTest.javascriptExecutor.executeScript("window.open();");
+        List<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
+        driver.get("https://google.com");
+        driver.close();
+        driver.switchTo().window(tabs.get(0));
+    }
+
     //--------3rd approach - switch or map---------
 //    public HomePage(WebDriver driver) {
 //        this.driver = driver;
