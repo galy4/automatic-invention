@@ -1,5 +1,6 @@
 package com.luxoft.web;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -28,6 +29,7 @@ public class ContactPage {
     @FindBy(xpath = "//div[@class='inner__info']/h4")
     WebElement smallHeader;
 
+    @Step("set name {1}")
     public ContactPage setName(String firstName, String lastName){
         firstNameField.clear();
         firstNameField.sendKeys(Keys.CONTROL + "v");
@@ -35,6 +37,7 @@ public class ContactPage {
         return this;
     }
 
+    @Step("check data {lastName} - {firstName}")
     public ContactPage verifyData(String firstName, String lastName){
         System.out.println(firstNameField.getCssValue("font-size"));
         System.out.println(smallHeader.getText());

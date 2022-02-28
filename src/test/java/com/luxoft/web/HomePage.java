@@ -1,5 +1,6 @@
 package com.luxoft.web;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -88,11 +89,13 @@ public class HomePage{
     @FindBy(xpath = "//a[contains(text(),'About us')]")
     List<WebElement> aboutUsLinks;
 
+    @Step("check search button")
     public void checkSearchButtonDisplayed(){
         assertThat(searchButton.isDisplayed(), equalTo(true));
         assertThat(menuSwitcher.isDisplayed(), equalTo(true));
     }
 
+    @Step("проверить что в меню отображаются {items}")
     public boolean verifyMainMenuItems(List<String> items){
         for(WebElement we:menuItems){
             if(!items.contains(we.getText()))
@@ -101,16 +104,19 @@ public class HomePage{
         return true;
     }
 
+    @Step("click contact link")
     public HomePage clickContactLink(){
         contactLink.click();
         return this;
     }
 
+    @Step("accept cookies")
     public HomePage acceptCookies(){
         acceptCookies.click();
         return this;
     }
 
+    @Step("violation link")
     public ContactPage isViolationDisplayed() throws InterruptedException {
         Assertions.assertTrue(violationLink.isDisplayed());
         Thread.sleep(1500);
@@ -121,12 +127,14 @@ public class HomePage{
         return new ContactPage(driver);
     }
 
+    @Step("checkElementAppears")
     public HomePage checkElementAppears(){
         menuSwitcher.click();
         BaseTest.waitVar.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//nav[@class='lux-menu__nav']/ul/li/a[contains(text(),'About us')]")));
         return this;
     }
 
+    @Step("посчитать стрелки {0}")
     public HomePage countArrows(int size) throws InterruptedException {
         Actions builder = new Actions(driver);
         builder.moveToElement(aboutUsLinks.get(0)).build().perform();
@@ -136,11 +144,13 @@ public class HomePage{
         return this;
     }
 
+    @Step("закрыть алерт")
     public void closeAlertWindow(){
         BaseTest.javascriptExecutor.executeScript("alert('TEST ALERT!11');");
         driver.switchTo().alert().dismiss();
     }
 
+    @Step("открыть новую вкладку")
     public void openNewPage(){
         BaseTest.javascriptExecutor.executeScript("window.open();");
         List<String> tabs = new ArrayList<>(driver.getWindowHandles());

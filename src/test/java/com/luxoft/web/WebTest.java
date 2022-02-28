@@ -1,9 +1,8 @@
 package com.luxoft.web;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,13 +13,14 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-
+@Epic("Название эпика")
+@Story("Сторя")
 public class WebTest extends BaseTest{
     private final HomePage homePage = new HomePage(driver);
 
 
     @Test
-    @Disabled
+    @DisplayName("первый тест")
     void firstTest() {
 
         WebElement menu = driver.findElement(By.id("menu-switcher"));
@@ -35,12 +35,12 @@ public class WebTest extends BaseTest{
 
         List<WebElement> menuItems = driver.findElement(By.className("header__menu"))
                 .findElements(By.xpath("./ul/li/a"));
-        assertThat(menuItems.size(), equalTo(6));
+        assertThat(menuItems.size(), equalTo(16));
 
     }
 
     @Test
-    @Disabled
+    @DisplayName("второй тест")
     void secondTest(){
         homePage.checkSearchButtonDisplayed();
         Assertions.assertTrue(homePage.verifyMainMenuItems(
@@ -55,6 +55,7 @@ public class WebTest extends BaseTest{
 //    }
 
     @Test
+    @DisplayName("третий тест")
     void checkLink() throws InterruptedException {
         homePage.clickContactLink()
             .acceptCookies()
@@ -62,6 +63,8 @@ public class WebTest extends BaseTest{
     }
 
     @Test
+    @Disabled
+    @DisplayName("четвертый тест")
     void sendTest() throws InterruptedException {
         homePage.clickContactLink();
         ContactPage contactPage = homePage.isViolationDisplayed();
@@ -70,6 +73,7 @@ public class WebTest extends BaseTest{
     }
 
     @Test
+    @Disabled
     void waitsTest() throws InterruptedException {
         homePage
                 .checkElementAppears()
